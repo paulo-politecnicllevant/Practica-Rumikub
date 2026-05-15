@@ -21,4 +21,12 @@ public class Mazo {
 
         Collections.shuffle(cartas);
     }
+
+    public Carta robar(){
+        return cartas.removeFirst();
+    }
+
+    public boolean estaVacio(){
+        return cartas.isEmpty();
+    }
 }
