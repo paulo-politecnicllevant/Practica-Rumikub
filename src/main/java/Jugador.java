@@ -32,4 +32,15 @@ public class Jugador {
     public void eliminarCarta(Carta carta){
         mano.remove(carta);
     }
+
+    public void mostrarMano(){
+        System.out.println("Mano de " + nombre);
+        for (int i = 0; i < mano.size(); i++){
+            System.out.println("Carta " + i + ": " + mano.get(i));
+        }
+    }
+
+    public boolean gano(){
+        return mano.isEmpty();
+    }
 }
