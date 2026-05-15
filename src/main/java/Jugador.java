@@ -24,4 +24,12 @@ public class Jugador {
     public void setMano(ArrayList<Carta> mano) {
         this.mano = mano;
     }
+
+    public void anyadirCarta(Carta carta){
+        mano.add(carta);
+    }
+
+    public void eliminarCarta(Carta carta){
+        mano.remove(carta);
+    }
 }
