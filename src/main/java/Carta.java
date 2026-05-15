@@ -29,4 +29,20 @@ public class Carta {
         this.valor = valor;
     }
 
+    @Override
+    public String toString() {
+        if (joker) return "JOKER";
+
+        String nombre;
+        switch (valor) {
+            case 1: nombre = "A"; break;
+            case 11: nombre = "J"; break;
+            case 12: nombre = "Q"; break;
+            case 13: nombre = "K"; break;
+            default: nombre = String.valueOf(valor);
+        }
+
+        return nombre + "-" + palo;
+    }
+
 }
