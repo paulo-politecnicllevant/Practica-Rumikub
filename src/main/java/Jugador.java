@@ -1,2 +1,27 @@
+import java.util.ArrayList;
+
 public class Jugador {
+    private String nombre;
+    private ArrayList<Carta> mano;
+
+    public Jugador(String nombre){
+        this.nombre = nombre;
+        this.mano = new ArrayList<>();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public ArrayList<Carta> getMano() {
+        return mano;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setMano(ArrayList<Carta> mano) {
+        this.mano = mano;
+    }
 }
