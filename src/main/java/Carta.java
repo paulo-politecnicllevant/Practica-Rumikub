@@ -29,6 +29,18 @@ public class Carta {
         this.valor = valor;
     }
 
+    public int getPuntos() {
+        if (joker){
+            return 20;
+        }
+
+        if (valor <= 7){
+            return 5;
+        }
+
+        return 10;
+    }
+
     @Override
     public String toString() {
         if (joker) return "JOKER";

@@ -54,4 +54,14 @@ public class Combinacion {
         }
         return false;
     }
+
+    public static int puntos(ArrayList<Carta> cartas) {
+        int suma = 0;
+
+        for (Carta c : cartas) {
+            suma += c.getPuntos();
+        }
+
+        return suma;
+    }
 }
