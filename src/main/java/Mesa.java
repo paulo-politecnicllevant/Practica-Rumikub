@@ -8,7 +8,11 @@ public class Mesa {
     }
 
     public void agregar(ArrayList<Carta> jugada) {
-        jugadas.add(jugada);
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            jugadas.add(jugada);
+        }else{
+            System.out.println("COMBINACION INVALIDA");
+        }
     }
 
     public void mostrar() {
