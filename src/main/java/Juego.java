@@ -100,6 +100,88 @@ public class Juego {
 
 
     public void iniciar() {
+        int turno = 0;
+        ArrayList<Carta> descarte = new ArrayList<>();
 
+        //Descartar primera carta
+        descarte.add(mazo.robar());
+
+        boolean fin = false;
+
+        while (!fin) {
+
+            Jugador jugador = jugadores.get(turno);
+
+            System.out.println("==============================");
+            System.out.println("TURNO DE " + jugador.getNombre());
+            System.out.println("==============================");
+
+            jugador.mostrarMano();
+            mesa.mostrar();
+            System.out.println("Carta en descarte: " + descarte.get(descarte.size() - 1));
+
+            //Robar carta
+            System.out.println("1. Robar del mazo");
+            System.out.println("2. Robar del descarte");
+            System.out.print("Elige opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            Carta robada;
+            if (opcion == 1) {
+                robada = mazo.robar();
+                System.out.println(jugador.getNombre() + " roba del mazo: " + robada);
+            } else {
+                robada = descarte.remove(descarte.size() - 1);
+                System.out.println(jugador.getNombre() + " roba del descarte: " + robada);
+            }
+
+            jugador.anyadirCarta(robada);
+
+            boolean turnoTerminado = false;
+
+            while (!turnoTerminado) {
+                System.out.println("============= ACCIONES =============");
+                System.out.println("1. Ver mano");
+                System.out.println("2. Jugar combinación");
+                System.out.println("3. Añadir carta a combinación existente");
+                System.out.println("4. Descartar y terminar turno");
+                System.out.print("Elige opción: ");
+
+                int accion = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (accion) {
+                    case 1:
+                        jugador.mostrarMano();
+                        break;
+
+                    case 2:
+                        jugarCombinacion(jugador);
+                        break;
+
+                    case 3:
+                        anadirAMesa(jugador);
+                        break;
+
+                    case 4:
+                        turnoTerminado = true;
+                        descartar(jugador, descarte);
+                        break;
+
+                    default:
+                        System.out.println("Opcion invalida");
+                }
+            }
+
+            if (jugador.gano()) {
+                System.out.println(jugador.getNombre() + " ha ganado la pratida");
+                fin = true;
+            }
+
+            turno = (turno + 1) % jugadores.size();
+        }
     }
+
 }
