@@ -71,7 +71,7 @@ public class Juego {
         scanner.nextLine();
 
         Carta carta = jugador.getMano().get(cartaIndex);
-        ArrayList<Carta> jugada = mesa.jugadas.get(jugadaIndex);
+        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndex);
 
         jugada.add(carta);
 
