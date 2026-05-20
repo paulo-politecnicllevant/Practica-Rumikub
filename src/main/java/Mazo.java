@@ -10,7 +10,7 @@ public class Mazo {
 
         for (int i = 0; i < 2; i++){
             for (String palo : palos){
-                for (int j = 0; j < 13; j++){
+                for (int j = 1; j <= 13; j++){
                     cartas.add(new Carta(palo, j, false));
                 }
             }

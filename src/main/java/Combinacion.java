@@ -28,31 +28,41 @@ public class Combinacion {
             return false;
         }
 
+        //Copia para no modificar la original
+        ArrayList<Carta> copia = new ArrayList<>(cartas);
+
+        //Ordenar por valor
+        copia.sort(Comparator.comparingInt(Carta::getValor));
+
         String palo = null;
 
-        for (Carta c : cartas) {
-            if (c.esJoker()) {
-                continue;
-            }
-
-            if (palo == null) {
-                palo = c.getPalo();
-            } else if (!palo.equals(c.getPalo())) {
-                return false;
-            }
-
-            Collections.sort(cartas, Comparator.comparingInt(Carta::getValor));
-
-            for (int i = 1; i < cartas.size(); i++) {
-                if (!cartas.get(i).esJoker() && !cartas.get(i - 1).esJoker()) {
-                    if (cartas.get(i).getValor() != cartas.get(i - 1).getValor() + 1)
-                        return false;
+        for (Carta c : copia) {
+            if (!c.esJoker()) {
+                if (palo == null) {
+                    palo = c.getPalo();
+                } else if (!palo.equals(c.getPalo())) {
+                    return false;
                 }
             }
-
-            return true;
         }
-        return false;
+
+        int jokers = (int) copia.stream().filter(Carta::esJoker).count();
+
+        for (int i = 1; i < copia.size(); i++) {
+            Carta previa = copia.get(i - 1);
+            Carta actual = copia.get(i);
+
+            if (previa.esJoker() || actual.esJoker()) continue;
+
+            if (actual.getValor() != previa.getValor() + 1) {
+                if (jokers > 0){
+                    jokers--;
+                } else{
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static int puntos(ArrayList<Carta> cartas) {
