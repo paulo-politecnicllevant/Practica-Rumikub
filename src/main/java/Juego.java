@@ -57,6 +57,32 @@ public class Juego {
         }
     }
 
+    private void anadirAMesa(Jugador jugador) {
+        mesa.mostrar();
+        System.out.print("Elige el numero de la jugada: ");
+
+        int jugadaIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        jugador.mostrarMano();
+        System.out.print("Elige una carta para añadir: ");
+
+        int cartaIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        Carta carta = jugador.getMano().get(cartaIndex);
+        ArrayList<Carta> jugada = mesa.jugadas.get(jugadaIndex);
+
+        jugada.add(carta);
+
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            System.out.println("Carta añadida correctamente");
+            jugador.eliminarCarta(carta);
+        } else {
+            System.out.println("No se puede añadir esa carta");
+            jugada.remove(carta);
+        }
+    }
 
     public void iniciar() {
 

@@ -21,4 +21,9 @@ public class Mesa {
             System.out.println(i + ": " + jugadas.get(i));
         }
     }
+
+    public ArrayList<ArrayList<Carta>> getJugadas() {
+        return jugadas;
+    }
+
 }
