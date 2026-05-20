@@ -84,6 +84,21 @@ public class Juego {
         }
     }
 
+    private void descartar(Jugador jugador, ArrayList<Carta> descarte) {
+        jugador.mostrarMano();
+        System.out.print("Elige la carta que quieres descartar: ");
+
+        int index = scanner.nextInt();
+        scanner.nextLine();
+
+        Carta carta = jugador.getMano().get(index);
+        jugador.eliminarCarta(carta);
+        descarte.add(carta);
+
+        System.out.println(jugador.getNombre() + " ha descartado: " + carta);
+    }
+
+
     public void iniciar() {
 
     }
