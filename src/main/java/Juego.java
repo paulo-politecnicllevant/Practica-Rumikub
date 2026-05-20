@@ -27,6 +27,37 @@ public class Juego {
             }
         }
     }
+
+    private void jugarCombinacion(Jugador jugador) {
+        System.out.println("¿Cuantas cartas tendra la combinacion?");
+        int n = scanner.nextInt();
+        scanner.nextLine();
+
+        ArrayList<Carta> jugada = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            jugador.mostrarMano();
+            System.out.print("Elige el indice de la carta: ");
+            int index = scanner.nextInt();
+            scanner.nextLine();
+
+            jugada.add(jugador.getMano().get(index));
+        }
+
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            System.out.println("Combinacion valida: " + jugada);
+            mesa.agregar(jugada);
+
+            for (Carta c : jugada){
+                jugador.eliminarCarta(c);
+            }
+
+        } else {
+            System.out.println("Combinacion invalida");
+        }
+    }
+
+
     public void iniciar() {
 
     }
