@@ -1,22 +1,12 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Juego {
-    private ArrayList<Jugador> jugadores;
+public class JuegoRummi extends JuegoBase {
     private Mazo mazo;
-    private Mesa mesa;
-    private Scanner scanner;
 
-    public Juego(int n) {
-        jugadores = new ArrayList<>();
+    public JuegoRummi(int n) {
+        super(n);
         mazo = new Mazo();
-        mesa = new Mesa();
-        scanner = new Scanner(System.in);
-
-        for (int i = 1; i <= n; i++) {
-            jugadores.add(new Jugador("Jugador " + i));
-        }
-
         repartir();
     }
 
@@ -98,7 +88,7 @@ public class Juego {
         System.out.println(jugador.getNombre() + " ha descartado: " + carta);
     }
 
-
+    @Override
     public void iniciar() {
         int turno = 0;
         ArrayList<Carta> descarte = new ArrayList<>();

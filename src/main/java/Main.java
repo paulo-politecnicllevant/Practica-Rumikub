@@ -4,12 +4,30 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("=========== RUMMY CLÁSICO ===========");
-        System.out.print("Número de jugadores: ");
+        System.out.println("============ ELIGE EL JUEGO =============");
+        System.out.println("1. Rummi");
+        System.out.println("2. Rummikub");
+        System.out.print("Opcion: ");
 
+        int opcion = sc.nextInt();
+
+        System.out.print("Elige el numero de jugadores: ");
         int n = sc.nextInt();
 
-        Juego juego = new Juego(n);
+        JuegoBase juego;
+
+        switch (opcion) {
+            case 1:
+                juego = new JuegoRummi(n);
+                break;
+            case 2:
+                juego = new JuegoRummikub(n);
+                break;
+            default:
+                System.out.println("Opcion invalida");
+                return;
+        }
+
         juego.iniciar();
     }
 }
