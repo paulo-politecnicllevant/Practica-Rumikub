@@ -19,6 +19,20 @@ public class JuegoGinRummi extends JuegoBase{
         }
     }
 
+    private void descartar(Jugador jugador) {
+        jugador.mostrarMano();
+        System.out.print("Elige la carta que quieres descartar: ");
+
+        int index = scanner.nextInt();
+        scanner.nextLine();
+
+        Carta carta = jugador.getMano().get(index);
+        jugador.eliminarCarta(carta);
+        cartaDescarte.add(carta);
+
+        System.out.println(jugador.getNombre() + " ha descartado: " + carta);
+    }
+
     @Override
     public void iniciar() {
 
