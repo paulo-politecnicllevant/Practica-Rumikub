@@ -41,7 +41,7 @@ public class JuegoRummikub extends JuegoBase {
         if (!jugadorHaHecho30[turno]) {
 
             if (puntos < 30) {
-                System.out.println("Necesitas al menos 30 puntos en tu primera jugada.");
+                System.out.println("Necesitas al menos 30 puntos en tu primera jugada");
                 return;
             } else {
                 jugadorHaHecho30[turno] = true;
@@ -59,6 +59,53 @@ public class JuegoRummikub extends JuegoBase {
 
         } else {
             System.out.println("Combinacion invalida");
+        }
+    }
+
+    private void anadirAMesa(Jugador jugador, int turno) {
+        if (!jugadorHaHecho30[turno]) {
+            System.out.println("La jugada inicial ha de ser de como minimo 30 puntos");
+            return;
+        }
+
+        mesa.mostrar();
+        if (mesa.getJugadas().isEmpty()) {
+            System.out.println("No hay jugadas en la mesa para añadir fichas");
+            return;
+        }
+
+        System.out.print("Elige el número de la jugada: ");
+
+        int jugadaIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        if (jugadaIndex < 0 || jugadaIndex >= mesa.getJugadas().size()) {
+            System.out.println("Ese indice es incorrecto");
+            return;
+        }
+
+        jugador.mostrarMano();
+        System.out.print("Elige la ficha para añadir: ");
+
+        int cartaIndex = scanner.nextInt();
+        scanner.nextLine();
+
+        if (cartaIndex < 0 || cartaIndex >= jugador.getMano().size()) {
+            System.out.println("No existe el indice de la ficha");
+            return;
+        }
+
+        Carta ficha = jugador.getMano().get(cartaIndex);
+        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndex);
+
+        jugada.add(ficha);
+
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            System.out.println("Ficha añadida correctamente");
+            jugador.eliminarCarta(ficha);
+        } else {
+            System.out.println("Esa ficha no se puede añadir");
+            jugada.remove(ficha);
         }
     }
 
