@@ -111,6 +111,69 @@ public class JuegoRummikub extends JuegoBase {
 
     @Override
     public void iniciar() {
+        int turno = 0;
+        boolean fin = false;
 
+        while (!fin) {
+            Jugador jugador = jugadores.get(turno);
+
+            System.out.println("==============================");
+            System.out.println("TURNO DE " + jugador.getNombre());
+            System.out.println("==============================");
+
+            jugador.mostrarMano();
+            mesa.mostrar();
+
+            //Robar de la bolsa
+            if (!bolsa.estaVacio()) {
+                Carta robada = bolsa.robar();
+                jugador.anyadirCarta(robada);
+                System.out.println("Has robado: " + robada);
+            } else {
+                System.out.println("No quedan fichas en la bolsa");
+            }
+
+            boolean turnoTerminado = false;
+
+            while (!turnoTerminado) {
+                System.out.println("============= ACCIONES =============");
+                System.out.println("1. Ver mano");
+                System.out.println("2. Jugar combinacion");
+                System.out.println("3. Anyadir ficha a combinacion existente");
+                System.out.println("4. Terminar turno");
+                System.out.print("Elige opcion: ");
+
+                int accion = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (accion) {
+                    case 1:
+                        jugador.mostrarMano();
+                        break;
+
+                    case 2:
+                        jugarCombinacion(jugador, turno);
+                        break;
+
+                    case 3:
+                        anadirAMesa(jugador, turno);
+                        break;
+
+                    case 4:
+                        turnoTerminado = true;
+                        break;
+
+                    default:
+                        System.out.println("Opcion invalida");
+                }
+            }
+
+            if (jugador.gano()) {
+                System.out.println(jugador.getNombre() + " ha ganado la partida");
+                fin = true;
+            }
+
+            turno = (turno + 1) % jugadores.size();
+        }
     }
 }
