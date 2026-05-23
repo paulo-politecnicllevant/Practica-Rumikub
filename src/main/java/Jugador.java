@@ -43,4 +43,14 @@ public class Jugador {
     public boolean gano(){
         return mano.isEmpty();
     }
+
+    public int puntosMuertos() {
+        int suma = 0;
+        for (Carta c : mano) suma += c.getPuntos();
+        return suma;
+    }
+
+    public boolean tieneGin() {
+        return puntosMuertos() == 0;
+    }
 }
