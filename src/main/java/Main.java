@@ -29,6 +29,10 @@ public class Main {
             case 3:
                 juego = new JuegoGinRummi(n);
                 break;
+
+            case 4:
+                juego = new JuegoRummyArgentino(n);
+                break;
             default:
                 System.out.println("Opcion invalida");
                 return;
