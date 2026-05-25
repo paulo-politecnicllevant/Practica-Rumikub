@@ -8,6 +8,7 @@ public class Main {
         System.out.println("1. Rummi");
         System.out.println("2. Rummikub");
         System.out.println("3. Gin Rummi");
+        System.out.println("4. Rummi Argentino");
         System.out.print("Opcion: ");
 
         int opcion = sc.nextInt();

@@ -103,5 +103,83 @@ public class JuegoRummyArgentino extends JuegoBase {
     @Override
     public void iniciar() {
 
+        int turno = 0;
+        boolean fin = false;
+
+        while (!fin) {
+
+            Jugador jugador = jugadores.get(turno);
+
+            System.out.println("==============================");
+            System.out.println("TURNO DE " + jugador.getNombre());
+            System.out.println("==============================");
+
+            jugador.mostrarMano();
+            System.out.println("Carta en descarte: " + descarte.get(descarte.size() - 1));
+
+            System.out.println("1. Robar del mazo");
+            System.out.println("2. Robar del descarte");
+            System.out.print("Elige una opcion: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            Carta robada;
+
+            if (opcion == 1) {
+                robada = mazo.robar();
+                System.out.println("Has robado del mazo: " + robada);
+            } else {
+                robada = descarte.remove(descarte.size() - 1);
+                System.out.println("Has robado del descarte: " + robada);
+            }
+
+            jugador.anyadirCarta(robada);
+
+            boolean turnoTerminado = false;
+
+            while (!turnoTerminado) {
+
+                System.out.println("============ ACCIONES ==============");
+                System.out.println("1. Ver mano");
+                System.out.println("2. Bajar combinacion");
+                System.out.println("3. Añadir a la mesa");
+                System.out.println("4. Descartar y terminar turno");
+                System.out.print("Elige una opción: ");
+
+                int accion = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (accion) {
+                    case 1:
+                        jugador.mostrarMano();
+                        break;
+
+                    case 2:
+                        bajarCombinacion(jugador);
+                        break;
+
+                    case 3:
+                        anadirAMesa(jugador);
+                        break;
+
+                    case 4:
+                        descartar(jugador);
+                        turnoTerminado = true;
+                        break;
+
+                    default:
+                        System.out.println("Opcion invalida");
+                }
+            }
+
+            //Si el jugador se quedó sin cartas, gana
+            if (jugador.getMano().isEmpty()) {
+                System.out.println(jugador.getNombre() + " ha ganado la ronda");
+                fin = true;
+            }
+
+            turno = (turno + 1) % jugadores.size();
+        }
     }
 }
