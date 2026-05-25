@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class JuegoBase {
+public abstract class JuegoBase implements Serializable{
     protected ArrayList<Jugador> jugadores;
     protected Mesa mesa;
-    protected Scanner scanner;
+    protected transient Scanner scanner;
     protected Mazo mazo;
     protected ArrayList<Carta> descarte;
     protected int turnoActual;
@@ -42,7 +42,12 @@ public abstract class JuegoBase {
         try (ObjectInputStream ois =
                      new ObjectInputStream(new FileInputStream(archivo))) {
 
-            return (JuegoBase) ois.readObject();
+            JuegoBase juego = (JuegoBase) ois.readObject();
+
+            // reconstruir scanner porque es transient
+            juego.scanner = new Scanner(System.in);
+
+            return juego;
 
         } catch (Exception e) {
 

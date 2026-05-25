@@ -112,7 +112,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
 
     @Override
     public void iniciar() {
-        turnoActual = 0;
+        turnoActual = turnoActual;
         boolean fin = false;
 
         while (!fin) {
@@ -142,6 +142,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
                 System.out.println("2. Jugar combinacion");
                 System.out.println("3. Añadir ficha a combinacion existente");
                 System.out.println("4. Terminar turno");
+                System.out.println("5. Guardar partida");
                 System.out.print("Elige opcion: ");
 
                 int accion = scanner.nextInt();
@@ -162,6 +163,12 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
 
                     case 4:
                         turnoTerminado = true;
+                        break;
+
+                    case 5:
+                        System.out.print("Nombre del archivo: ");
+                        String nombre = scanner.nextLine();
+                        guardarPartida(nombre);
                         break;
 
                     default:

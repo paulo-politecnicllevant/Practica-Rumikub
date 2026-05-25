@@ -90,7 +90,7 @@ public class JuegoRummi extends JuegoBase implements Serializable {
 
     @Override
     public void iniciar() {
-        turnoActual = 0;
+        turnoActual = turnoActual;
         boolean fin = false;
 
         while (!fin) {
@@ -132,6 +132,7 @@ public class JuegoRummi extends JuegoBase implements Serializable {
                 System.out.println("2. Jugar combinación");
                 System.out.println("3. Añadir carta a combinación existente");
                 System.out.println("4. Descartar y terminar turno");
+                System.out.println("5. Guardar partida");
                 System.out.print("Elige opción: ");
 
                 int accion = scanner.nextInt();
@@ -153,6 +154,12 @@ public class JuegoRummi extends JuegoBase implements Serializable {
                     case 4:
                         descartar(jugador);
                         turnoTerminado = true;
+                        break;
+
+                    case 5:
+                        System.out.print("Nombre del archivo: ");
+                        String nombre = scanner.nextLine();
+                        guardarPartida(nombre);
                         break;
 
                     default:
