@@ -18,7 +18,7 @@ public class Carta {
     }
 
     public boolean esJoker(){
-        return true;
+        return joker;
     }
 
     public void setPalo(String palo) {
@@ -41,9 +41,50 @@ public class Carta {
         return 10;
     }
 
+    public int getPuntosArgentino() {
+
+        //JOKER
+        if (joker){
+            return 50;
+        }
+
+        //Mono (el 2)
+        if (valor == 2){
+            return 20;
+        }
+
+        //As
+        if (valor == 1){
+            return 15;
+        }
+
+        if (valor >= 3 && valor <= 7){
+            return 5;
+        }
+
+        if (valor >= 8 && valor <= 13){
+            return 10;
+        }
+
+        return 0;
+    }
+
+    public boolean esComodin(){
+        if (joker){
+            return true; //morrucho
+        }
+
+        if (valor == 2){
+            return true; //mono (comodín especial)
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
-        if (joker) return "JOKER";
+        if (joker){
+            return "JOKER";
+        }
 
         String nombre;
         switch (valor) {
