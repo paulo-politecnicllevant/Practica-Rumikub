@@ -74,6 +74,32 @@ public class JuegoRummyArgentino extends JuegoBase {
         System.out.println("Has descartado: " + carta);
     }
 
+    private void anadirAMesa(Jugador jugador) {
+        mesa.mostrar();
+
+        System.out.print("Elige el numero de la jugada: ");
+        int jugadaIndice = scanner.nextInt();
+        scanner.nextLine();
+
+        jugador.mostrarMano();
+        System.out.print("Elige una carta para añadir: ");
+        int cartaIndice = scanner.nextInt();
+        scanner.nextLine();
+
+        Carta carta = jugador.getMano().get(cartaIndice);
+        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndice);
+
+        jugada.add(carta);
+
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            System.out.println("Carta añadida correctamente");
+            jugador.eliminarCarta(carta);
+        } else {
+            System.out.println("Esa carta rompe la jugada");
+            jugada.remove(carta);
+        }
+    }
+
     @Override
     public void iniciar() {
 
