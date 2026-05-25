@@ -60,6 +60,20 @@ public class JuegoRummyArgentino extends JuegoBase {
         }
     }
 
+    private void descartar(Jugador jugador) {
+        jugador.mostrarMano();
+        System.out.print("Elige una carta para descartar: ");
+
+        int indice = scanner.nextInt();
+        scanner.nextLine();
+
+        Carta carta = jugador.getMano().get(indice);
+        jugador.eliminarCarta(carta);
+        descarte.add(carta);
+
+        System.out.println("Has descartado: " + carta);
+    }
+
     @Override
     public void iniciar() {
 
