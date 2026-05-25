@@ -21,6 +21,45 @@ public class JuegoRummyArgentino extends JuegoBase {
         descarte.add(mazo.robar());
     }
 
+    private void bajarCombinacion(Jugador jugador) {
+        System.out.println("¿Cuantas cartas tendra la combinacion?");
+        int n = scanner.nextInt();
+        scanner.nextLine();
+
+        ArrayList<Carta> jugada = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            jugador.mostrarMano();
+            System.out.print("Elige indice de carta: ");
+
+            int indice = scanner.nextInt();
+            scanner.nextLine();
+            jugada.add(jugador.getMano().get(indice));
+        }
+
+        int comodines = 0;
+        for (Carta c : jugada){
+            if (c.esComodin()){
+                comodines++;
+            }
+        }
+
+        if (comodines > 1) {
+            System.out.println("No puedes usar mas de un comodin en la misma jugada");
+            return;
+        }
+
+        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
+            System.out.println("Combinacion valida: " + jugada);
+            mesa.agregar(jugada);
+            for (Carta c : jugada){
+                jugador.eliminarCarta(c);
+            }
+        } else {
+            System.out.println("Combinacion invalida");
+        }
+    }
+
     @Override
     public void iniciar() {
 
