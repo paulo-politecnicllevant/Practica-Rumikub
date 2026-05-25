@@ -10,6 +10,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
         repartir();
     }
 
+    //Método para repartir cartas
     public void repartir(){
         for (int i = 0; i < 10; i++){
             for (Jugador j: jugadores){
@@ -19,6 +20,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
         descarte.add(mazo.robar());
     }
 
+    //Método para descartar una carta
     private void descartar(Jugador jugador) {
         jugador.mostrarMano();
         System.out.print("Elige la carta que quieres descartar: ");
@@ -33,6 +35,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
         System.out.println(jugador.getNombre() + " ha descartado: " + carta);
     }
 
+    //Método para iniciar una partida
     @Override
     public void iniciar() {
 

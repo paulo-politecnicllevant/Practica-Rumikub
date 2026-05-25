@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        //Selección de la partida (nueva o ya empezada)
         Scanner sc = new Scanner(System.in);
 
         System.out.println("============ MENU PRINCIPAL ============");
@@ -42,6 +44,7 @@ public class Main {
         juego.iniciar();
     }
 
+    //Metodo para crear una nueva partida
     private static JuegoBase crearNuevaPartida(Scanner sc) {
         System.out.println("============ ELIGE EL JUEGO =============");
         System.out.println("1. Rummi");

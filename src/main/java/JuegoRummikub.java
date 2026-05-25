@@ -12,6 +12,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
         repartir();
     }
 
+    //Método para repartir cartas
     private void repartir() {
         for (int i = 0; i < 14; i++) {
             for (Jugador j : jugadores) {
@@ -20,6 +21,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
         }
     }
 
+    //Método para bajar una combinación nueva
     private void jugarCombinacion(Jugador jugador, int turno) {
         System.out.println("¿Cuantas fichas tendra la combinacion?");
         int n = scanner.nextInt();
@@ -63,6 +65,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
         }
     }
 
+    //Método para añadir una carta a una combinación ya existente
     private void anadirAMesa(Jugador jugador, int turno) {
         if (!jugadorHaHecho30[turno]) {
             System.out.println("La jugada inicial ha de ser de como minimo 30 puntos");
@@ -110,6 +113,7 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
         }
     }
 
+    //Método para iniciar una partida
     @Override
     public void iniciar() {
         turnoActual = turnoActual;

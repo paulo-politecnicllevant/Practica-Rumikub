@@ -5,6 +5,7 @@ import java.util.Collections;
 public class Mazo implements Serializable {
     private ArrayList<Carta> cartas;
 
+    //Constructor
     public Mazo(){
         cartas = new ArrayList<>();
         String[] palos = {"Corazon", "Diamante", "Pica", "Trebol"};
@@ -23,10 +24,12 @@ public class Mazo implements Serializable {
         Collections.shuffle(cartas);
     }
 
+    //Método para robar una ficha del mazo
     public Carta robar(){
         return cartas.removeFirst();
     }
 
+    //Indica si ya no quedan fichas en la bolsa
     public boolean estaVacio(){
         return cartas.isEmpty();
     }

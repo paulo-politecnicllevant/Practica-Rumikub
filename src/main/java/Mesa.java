@@ -8,6 +8,7 @@ public class Mesa implements Serializable {
         jugadas = new ArrayList<>();
     }
 
+    //Agrega una jugada a la mesa
     public void agregar(ArrayList<Carta> jugada) {
         if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
             jugadas.add(jugada);
@@ -16,6 +17,7 @@ public class Mesa implements Serializable {
         }
     }
 
+    //Muestra todas las jugadas que hay actualmente en la mesa
     public void mostrar() {
         System.out.println("============ MESA ============");
         for (int i = 0; i < jugadas.size(); i++) {
@@ -23,6 +25,7 @@ public class Mesa implements Serializable {
         }
     }
 
+    //Devuelve la lista completa de jugadas de la mesa
     public ArrayList<ArrayList<Carta>> getJugadas() {
         return jugadas;
     }

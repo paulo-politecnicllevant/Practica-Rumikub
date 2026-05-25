@@ -10,6 +10,8 @@ public class Jugador implements Serializable{
         this.mano = new ArrayList<>();
     }
 
+
+    //GETTERS / SETTERS
     public String getNombre() {
         return nombre;
     }
@@ -22,6 +24,7 @@ public class Jugador implements Serializable{
         this.nombre = nombre;
     }
 
+    //Añade una carta a la mano del jugador
     public void setMano(ArrayList<Carta> mano) {
         this.mano = mano;
     }
@@ -30,10 +33,12 @@ public class Jugador implements Serializable{
         mano.add(carta);
     }
 
+    //Elimina una carta de la mano del jugador
     public void eliminarCarta(Carta carta){
         mano.remove(carta);
     }
 
+    //Muestra todas las cartas que tiene el jugador
     public void mostrarMano(){
         System.out.println("Mano de " + nombre);
         for (int i = 0; i < mano.size(); i++){
@@ -45,12 +50,14 @@ public class Jugador implements Serializable{
         return mano.isEmpty();
     }
 
+    //Calcula los puntos muertos del jugador (Gin Rummi)
     public int puntosMuertos() {
         int suma = 0;
         for (Carta c : mano) suma += c.getPuntos();
         return suma;
     }
 
+    //Indica si el jugador tiene "Gin"
     public boolean tieneGin() {
         return puntosMuertos() == 0;
     }

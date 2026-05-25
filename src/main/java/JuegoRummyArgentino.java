@@ -10,6 +10,7 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
         repartir();
     }
 
+    //Método para repartir cartas
     private void repartir() {
         for (int i = 0; i < 9; i++) {
             for (Jugador j : jugadores) {
@@ -19,6 +20,7 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
         descarte.add(mazo.robar());
     }
 
+    //Método para bajar una combinación nueva
     private void bajarCombinacion(Jugador jugador) {
         System.out.println("¿Cuantas cartas tendra la combinacion?");
         int n = scanner.nextInt();
@@ -58,6 +60,7 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
         }
     }
 
+    //Método para descartar una carta
     private void descartar(Jugador jugador) {
         jugador.mostrarMano();
         System.out.print("Elige una carta para descartar: ");
@@ -72,6 +75,7 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
         System.out.println("Has descartado: " + carta);
     }
 
+    //Método para añadir una carta a una combinación ya existente
     private void anadirAMesa(Jugador jugador) {
         mesa.mostrar();
 
@@ -98,6 +102,7 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
         }
     }
 
+    //Método para iniciar una partida
     @Override
     public void iniciar() {
 

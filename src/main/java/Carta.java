@@ -11,6 +11,8 @@ public class Carta implements Serializable {
         this.joker = joker;
     }
 
+
+    //GETTERS / SETTERS
     public String getPalo(){
         return palo;
     }
@@ -31,6 +33,7 @@ public class Carta implements Serializable {
         this.valor = valor;
     }
 
+    //Devuelve los puntos de la carta según las reglas del Rummi
     public int getPuntos() {
         if (joker){
             return 20;

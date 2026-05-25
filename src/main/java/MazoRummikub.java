@@ -5,6 +5,7 @@ import java.util.Collections;
 public class MazoRummikub implements Serializable {
     private ArrayList<Carta> fichas;
 
+    //Constructor
     public MazoRummikub() {
         fichas = new ArrayList<>();
 
@@ -25,10 +26,12 @@ public class MazoRummikub implements Serializable {
         Collections.shuffle(fichas);
     }
 
+    //Método para robar una ficha del mazo
     public Carta robar() {
         return fichas.removeFirst();
     }
 
+    //Indica si ya no quedan fichas en la bolsa
     public boolean estaVacio() {
         return fichas.isEmpty();
     }
