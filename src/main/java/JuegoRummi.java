@@ -1,12 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class JuegoRummi extends JuegoBase {
-    private Mazo mazo;
-
+public class JuegoRummi extends JuegoBase implements Serializable {
     public JuegoRummi(int n) {
         super(n);
-        mazo = new Mazo();
+        this.mazo = new Mazo();
+        this.descarte = new ArrayList<>();
         repartir();
     }
 
@@ -16,6 +15,7 @@ public class JuegoRummi extends JuegoBase {
                 j.anyadirCarta(mazo.robar());
             }
         }
+        descarte.add(mazo.robar());
     }
 
     private void jugarCombinacion(Jugador jugador) {
@@ -74,7 +74,7 @@ public class JuegoRummi extends JuegoBase {
         }
     }
 
-    private void descartar(Jugador jugador, ArrayList<Carta> descarte) {
+    private void descartar(Jugador jugador) {
         jugador.mostrarMano();
         System.out.print("Elige la carta que quieres descartar: ");
 
@@ -90,17 +90,12 @@ public class JuegoRummi extends JuegoBase {
 
     @Override
     public void iniciar() {
-        int turno = 0;
-        ArrayList<Carta> descarte = new ArrayList<>();
-
-        //Descartar primera carta
-        descarte.add(mazo.robar());
-
+        turnoActual = 0;
         boolean fin = false;
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turno);
+            Jugador jugador = jugadores.get(turnoActual);
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
@@ -156,8 +151,8 @@ public class JuegoRummi extends JuegoBase {
                         break;
 
                     case 4:
+                        descartar(jugador);
                         turnoTerminado = true;
-                        descartar(jugador, descarte);
                         break;
 
                     default:
@@ -166,11 +161,11 @@ public class JuegoRummi extends JuegoBase {
             }
 
             if (jugador.gano()) {
-                System.out.println(jugador.getNombre() + " ha ganado la pratida");
+                System.out.println(jugador.getNombre() + " ha ganado la partida");
                 fin = true;
             }
 
-            turno = (turno + 1) % jugadores.size();
+            turnoActual = (turnoActual + 1) % jugadores.size();
         }
     }
 

@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MazoRummikub {
+public class MazoRummikub implements Serializable {
     private ArrayList<Carta> fichas;
 
     public MazoRummikub() {

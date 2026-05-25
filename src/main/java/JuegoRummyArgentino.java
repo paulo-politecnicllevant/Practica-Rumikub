@@ -1,14 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class JuegoRummyArgentino extends JuegoBase {
-
-    private Mazo mazo;
-    private ArrayList<Carta> descarte;
+public class JuegoRummyArgentino extends JuegoBase implements Serializable {
 
     public JuegoRummyArgentino(int n) {
         super(n);
-        mazo = new Mazo();
-        descarte = new ArrayList<>();
+        this.mazo = new Mazo();
+        this.descarte = new ArrayList<>();
         repartir();
     }
 
@@ -103,12 +101,12 @@ public class JuegoRummyArgentino extends JuegoBase {
     @Override
     public void iniciar() {
 
-        int turno = 0;
+        turnoActual = 0;
         boolean fin = false;
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turno);
+            Jugador jugador = jugadores.get(turnoActual);
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
@@ -179,7 +177,7 @@ public class JuegoRummyArgentino extends JuegoBase {
                 fin = true;
             }
 
-            turno = (turno + 1) % jugadores.size();
+            turnoActual = (turnoActual + 1) % jugadores.size();
         }
     }
 }

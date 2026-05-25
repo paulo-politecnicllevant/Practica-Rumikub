@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Combinacion {
+public class Combinacion implements Serializable {
 
     public static boolean esGrupo(ArrayList<Carta> cartas) {
         if (cartas.size() < 3 || cartas.size() > 4) return false;

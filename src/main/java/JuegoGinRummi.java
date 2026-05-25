@@ -1,13 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class JuegoGinRummi extends JuegoBase{
-    private Mazo mazo;
-    private ArrayList<Carta> cartaDescarte;
+public class JuegoGinRummi extends JuegoBase implements Serializable {
 
     public JuegoGinRummi(int n) {
         super(n);
-        mazo = new Mazo();
-        cartaDescarte = new ArrayList<>();
+        this.mazo = new Mazo();
+        this.descarte = new ArrayList<>();
         repartir();
     }
 
@@ -17,7 +16,7 @@ public class JuegoGinRummi extends JuegoBase{
                 j.anyadirCarta(mazo.robar());
             }
         }
-        cartaDescarte.add(mazo.robar());
+        descarte.add(mazo.robar());
     }
 
     private void descartar(Jugador jugador) {
@@ -29,7 +28,7 @@ public class JuegoGinRummi extends JuegoBase{
 
         Carta carta = jugador.getMano().get(index);
         jugador.eliminarCarta(carta);
-        cartaDescarte.add(carta);
+        descarte.add(carta);
 
         System.out.println(jugador.getNombre() + " ha descartado: " + carta);
     }
@@ -37,18 +36,18 @@ public class JuegoGinRummi extends JuegoBase{
     @Override
     public void iniciar() {
 
-        int turno = 0;
+        turnoActual = 0;
         boolean fin = false;
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turno);
+            Jugador jugador = jugadores.get(turnoActual);
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
             System.out.println("==============================");
 
-            System.out.println("Carta en descarte: " + cartaDescarte.getLast());
+            System.out.println("Carta en descarte: " + descarte.getLast());
 
             System.out.println("1. Robar del mazo");
             System.out.println("2. Robar del descarte");
@@ -62,7 +61,7 @@ public class JuegoGinRummi extends JuegoBase{
                 robada = mazo.robar();
                 System.out.println("Robas del mazo: " + robada);
             } else {
-                robada = cartaDescarte.removeLast();
+                robada = descarte.removeLast();
                 System.out.println("Robas del descarte: " + robada);
             }
 
@@ -117,7 +116,7 @@ public class JuegoGinRummi extends JuegoBase{
                 }
             }
 
-            turno = (turno + 1) % jugadores.size();
+            turnoActual = (turnoActual + 1) % jugadores.size();
         }
     }
 

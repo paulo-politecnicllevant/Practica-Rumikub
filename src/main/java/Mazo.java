@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Mazo {
+public class Mazo implements Serializable {
     private ArrayList<Carta> cartas;
 
     public Mazo(){

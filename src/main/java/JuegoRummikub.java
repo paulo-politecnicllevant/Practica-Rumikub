@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class JuegoRummikub extends JuegoBase {
+public class JuegoRummikub extends JuegoBase implements Serializable {
     private MazoRummikub bolsa;
     private boolean[] jugadorHaHecho30; //Para comprobar la primera jugada
 
@@ -111,11 +112,11 @@ public class JuegoRummikub extends JuegoBase {
 
     @Override
     public void iniciar() {
-        int turno = 0;
+        turnoActual = 0;
         boolean fin = false;
 
         while (!fin) {
-            Jugador jugador = jugadores.get(turno);
+            Jugador jugador = jugadores.get(turnoActual);
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
@@ -139,7 +140,7 @@ public class JuegoRummikub extends JuegoBase {
                 System.out.println("============= ACCIONES =============");
                 System.out.println("1. Ver mano");
                 System.out.println("2. Jugar combinacion");
-                System.out.println("3. Anyadir ficha a combinacion existente");
+                System.out.println("3. Añadir ficha a combinacion existente");
                 System.out.println("4. Terminar turno");
                 System.out.print("Elige opcion: ");
 
@@ -152,11 +153,11 @@ public class JuegoRummikub extends JuegoBase {
                         break;
 
                     case 2:
-                        jugarCombinacion(jugador, turno);
+                        jugarCombinacion(jugador, turnoActual);
                         break;
 
                     case 3:
-                        anadirAMesa(jugador, turno);
+                        anadirAMesa(jugador, turnoActual);
                         break;
 
                     case 4:
@@ -173,7 +174,7 @@ public class JuegoRummikub extends JuegoBase {
                 fin = true;
             }
 
-            turno = (turno + 1) % jugadores.size();
+            turnoActual = (turnoActual + 1) % jugadores.size();
         }
     }
 }

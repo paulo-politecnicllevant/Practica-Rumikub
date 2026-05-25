@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Mesa {
+public class Mesa implements Serializable {
     private ArrayList<ArrayList<Carta>> jugadas;
 
     public Mesa() {
