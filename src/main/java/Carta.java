@@ -1,8 +1,9 @@
 import enums.Palo;
+import interfaces.PiezaJuego;
 
 import java.io.Serializable;
 
-public class Carta implements Serializable {
+public class Carta implements Serializable, PiezaJuego {
     private Palo palo;
     private int valor;
     private boolean joker;
@@ -19,6 +20,7 @@ public class Carta implements Serializable {
         return palo;
     }
 
+    @Override
     public int getValor(){
         return valor;
     }
@@ -76,15 +78,9 @@ public class Carta implements Serializable {
         return 0;
     }
 
+    @Override
     public boolean esComodin(){
-        if (joker){
-            return true; //morrucho
-        }
-
-        if (valor == 2){
-            return true; //mono (comodín especial)
-        }
-        return false;
+        return joker;
     }
 
     @Override
