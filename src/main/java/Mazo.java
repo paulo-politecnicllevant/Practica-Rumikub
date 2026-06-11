@@ -1,3 +1,5 @@
+import enums.Palo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,18 +10,17 @@ public class Mazo implements Serializable {
     //Constructor
     public Mazo(){
         cartas = new ArrayList<>();
-        String[] palos = {"Corazon", "Diamante", "Pica", "Trebol"};
 
         for (int i = 0; i < 2; i++){
-            for (String palo : palos){
+            for (Palo palo : Palo.values()){
                 for (int j = 1; j <= 13; j++){
                     cartas.add(new Carta(palo, j, false));
                 }
             }
         }
         //Cartas joker
-        cartas.add(new Carta("", 0 , true));
-        cartas.add(new Carta("", 0 , true));
+        cartas.add(new Carta(null, 0 , true));
+        cartas.add(new Carta(null, 0 , true));
 
         Collections.shuffle(cartas);
     }

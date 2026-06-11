@@ -1,11 +1,13 @@
+import enums.Palo;
+
 import java.io.Serializable;
 
 public class Carta implements Serializable {
-    private String palo;
+    private Palo palo;
     private int valor;
     private boolean joker;
 
-    public Carta(String palo, int valor, boolean joker){
+    public Carta(Palo palo, int valor, boolean joker){
         this.palo = palo;
         this.valor = valor;
         this.joker = joker;
@@ -13,7 +15,7 @@ public class Carta implements Serializable {
 
 
     //GETTERS / SETTERS
-    public String getPalo(){
+    public Palo getPalo(){
         return palo;
     }
 
@@ -25,7 +27,7 @@ public class Carta implements Serializable {
         return joker;
     }
 
-    public void setPalo(String palo) {
+    public void setPalo(Palo palo) {
         this.palo = palo;
     }
 
