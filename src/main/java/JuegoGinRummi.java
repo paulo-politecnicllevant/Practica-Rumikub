@@ -5,18 +5,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
 
     public JuegoGinRummi(int n) {
         super(n);
-        this.mazo = new Mazo();
-        this.descarte = new ArrayList<>();
-        repartir();
-    }
-
-    //Método para repartir cartas
-    public void repartir(){
-        for (int i = 0; i < 10; i++){
-            for (Jugador j: jugadores){
-                j.anyadirCarta(mazo.robar());
-            }
-        }
+        repartirCartas(10);
         descarte.add(mazo.robar());
     }
 
@@ -39,18 +28,17 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
     @Override
     public void iniciar() {
 
-        turnoActual = turnoActual;
         boolean fin = false;
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turnoActual);
+            Jugador jugador = obtenerJugadorActual();
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
             System.out.println("==============================");
 
-            System.out.println("Carta en descarte: " + descarte.getLast());
+            System.out.println("Carta en descarte: " + descarte.get(descarte.size() - 1));
 
             System.out.println("1. Robar del mazo");
             System.out.println("2. Robar del descarte");
@@ -64,7 +52,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
                 robada = mazo.robar();
                 System.out.println("Robas del mazo: " + robada);
             } else {
-                robada = descarte.removeLast();
+                robada = descarte.remove(descarte.size() - 1);
                 System.out.println("Robas del descarte: " + robada);
             }
 
@@ -126,7 +114,7 @@ public class JuegoGinRummi extends JuegoBase implements Serializable {
                 }
             }
 
-            turnoActual = (turnoActual + 1) % jugadores.size();
+            siguienteTurno();
         }
     }
 
