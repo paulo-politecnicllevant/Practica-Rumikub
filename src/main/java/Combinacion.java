@@ -122,4 +122,9 @@ public class Combinacion implements Serializable {
 
         return suma;
     }
+
+    @Override
+    public String toString() {
+        return tipo + " --> " + cartas;
+    }
 }
