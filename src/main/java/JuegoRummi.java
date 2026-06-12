@@ -1,49 +1,54 @@
+import enums.TipoJugada;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class JuegoRummi extends JuegoBase implements Serializable {
     public JuegoRummi(int n) {
         super(n);
-        this.mazo = new Mazo();
-        this.descarte = new ArrayList<>();
-        repartir();
-    }
-
-    //Método para repartir cartas
-    private void repartir() {
-        for (int i = 0; i < 14; i++) {
-            for (Jugador j : jugadores) {
-                j.anyadirCarta(mazo.robar());
-            }
-        }
+        repartirCartas(14);
         descarte.add(mazo.robar());
     }
 
     //Método para bajar una combinación nueva
     private void jugarCombinacion(Jugador jugador) {
-        System.out.println("¿Cuantas cartas tendra la combinacion?");
-        int n = scanner.nextInt();
+        System.out.println("1. Grupo");
+        System.out.println("2. Escalera");
+
+        int opcion = scanner.nextInt();
         scanner.nextLine();
 
-        ArrayList<Carta> jugada = new ArrayList<>();
+        TipoJugada tipo;
 
-        for (int i = 0; i < n; i++) {
-            jugador.mostrarMano();
-            System.out.print("Elige el indice de la carta: ");
-            int index = scanner.nextInt();
-            scanner.nextLine();
-
-            jugada.add(jugador.getMano().get(index));
+        if(opcion == 1){
+            tipo = TipoJugada.GRUPO;
+        }else{
+            tipo = TipoJugada.ESCALERA;
         }
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Combinacion valida: " + jugada);
-            mesa.agregar(jugada);
+        Combinacion combinacion = new Combinacion(tipo);
 
-            for (Carta c : jugada){
-                jugador.eliminarCarta(c);
-            }
+        System.out.println("¿Cuantas cartas bajas?");
 
+        int cantidad = scanner.nextInt();
+        scanner.nextLine();
+
+        for(int i = 0; i < cantidad; i++){
+            jugador.mostrarMano();
+
+            System.out.print("Indice: ");
+
+            int indice = scanner.nextInt();
+            scanner.nextLine();
+
+            combinacion.agregarCarta(jugador.getMano().get(indice));
+        }
+
+        if(combinacion.esValida()){
+            mesa.agregar(combinacion);
+
+            jugador.quitarCombinacion(combinacion);
+            System.out.println("Combinacion colocada");
         } else {
             System.out.println("Combinacion invalida");
         }
@@ -52,28 +57,34 @@ public class JuegoRummi extends JuegoBase implements Serializable {
     //Método para añadir una carta a una combinación ya existente
     private void anadirAMesa(Jugador jugador) {
         mesa.mostrar();
-        System.out.print("Elige el numero de la jugada: ");
 
-        int jugadaIndex = scanner.nextInt();
+        System.out.print("Numero combinacion: ");
+
+        int indice = scanner.nextInt();
         scanner.nextLine();
 
         jugador.mostrarMano();
-        System.out.print("Elige una carta para añadir: ");
 
-        int cartaIndex = scanner.nextInt();
+        System.out.print("Carta: ");
+
+        int carta = scanner.nextInt();
         scanner.nextLine();
 
-        Carta carta = jugador.getMano().get(cartaIndex);
-        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndex);
+        Carta seleccionada = jugador.getMano().get(carta);
 
-        jugada.add(carta);
+        Combinacion combinacion = mesa.getCombinaciones().get(indice);
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Carta añadida correctamente");
-            jugador.eliminarCarta(carta);
-        } else {
-            System.out.println("No se puede añadir esa carta");
-            jugada.remove(carta);
+        combinacion.agregarCarta(seleccionada);
+
+        if(combinacion.esValida()) {
+            jugador.eliminarCarta(seleccionada);
+
+            System.out.println("Carta añadida");
+
+        }else{
+            combinacion.getCartas().remove(seleccionada);
+
+            System.out.println("Movimiento invalido");
         }
     }
 
@@ -100,7 +111,7 @@ public class JuegoRummi extends JuegoBase implements Serializable {
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turnoActual);
+            Jugador jugador = obtenerJugadorActual();
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
@@ -172,12 +183,12 @@ public class JuegoRummi extends JuegoBase implements Serializable {
                 }
             }
 
-            if (jugador.gano()) {
+            if (hayGanador()) {
                 System.out.println(jugador.getNombre() + " ha ganado la partida");
                 fin = true;
             }
 
-            turnoActual = (turnoActual + 1) % jugadores.size();
+            siguienteTurno();
         }
     }
 
