@@ -14,6 +14,9 @@ public abstract class JuegoBase implements Serializable{
         jugadores = new ArrayList<>();
         mesa = new Mesa();
         scanner = new Scanner(System.in);
+        mazo = new Mazo();
+        descarte = new ArrayList<>();
+        turnoActual = 0;
 
         for (int i = 1; i <= n; i++) {
             jugadores.add(new Jugador("Jugador " + i));
@@ -21,6 +24,37 @@ public abstract class JuegoBase implements Serializable{
     }
 
     public abstract void iniciar();
+
+    protected Jugador obtenerJugadorActual(){
+        return jugadores.get(turnoActual);
+    }
+
+    protected void siguienteTurno(){
+        turnoActual++;
+
+        if(turnoActual>= jugadores.size()){
+            turnoActual = 0;
+        }
+    }
+
+    protected void repartirCartas(int cantidad){
+        for(Jugador jugador : jugadores){
+            for(int i = 0; i < cantidad; i++){
+                jugador.anyadirCarta(mazo.robar());
+            }
+        }
+    }
+
+    protected boolean hayGanador(){
+        for(Jugador jugador : jugadores){
+            if(jugador.gano()){
+                System.out.println(jugador.getNombre() + " gana");
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void guardarPartida(String archivo) {
 
