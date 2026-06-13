@@ -1,4 +1,5 @@
 import enums.Palo;
+import enums.TipoMazo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,21 +9,45 @@ public class Mazo implements Serializable {
     private ArrayList<Carta> cartas;
 
     //Constructor
-    public Mazo(){
+    public Mazo(TipoMazo tipo){
         cartas = new ArrayList<>();
 
+        if (tipo == TipoMazo.CARTAS){
+            crearMazoCartas();
+        }
+
+        if (tipo == TipoMazo.FICHAS){
+            crearMazoFichas();
+        }
+
+        Collections.shuffle(cartas);
+    }
+
+    private void crearMazoCartas(){
         for (int i = 0; i < 2; i++){
             for (Palo palo : Palo.values()){
-                for (int j = 1; j <= 13; j++){
-                    cartas.add(new Carta(palo, j, false));
+                for (int valor = 1; valor <= 13; valor++){
+                    cartas.add(new Carta(palo, valor, false));
                 }
             }
         }
-        //Cartas joker
-        cartas.add(new Carta(null, 0 , true));
-        cartas.add(new Carta(null, 0 , true));
 
-        Collections.shuffle(cartas);
+        cartas.add(new Carta(null, 0, true));
+        cartas.add(new Carta(null, 0, true));
+    }
+
+    private void crearMazoFichas(){
+        for (int i = 0; i < 2; i++){
+            for (Palo color : Palo.values()){
+                for (int valor = 1; valor <= 13; valor++){
+                    cartas.add(new Carta(color, valor, false));
+                }
+            }
+        }
+
+        cartas.add(new Carta(null, 0, true));
+        cartas.add(new Carta(null, 0, true)
+        );
     }
 
     //Método para robar una ficha del mazo
