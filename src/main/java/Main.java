@@ -41,7 +41,9 @@ public class Main {
                 return;
         }
 
-        juego.iniciar();
+        if (juego != null){
+            juego.iniciar();
+        }
     }
 
     //Metodo para crear una nueva partida
@@ -61,10 +63,17 @@ public class Main {
         sc.nextLine();
 
         switch (opcion) {
-            case 1: return new JuegoRummi(n);
-            case 2: return new JuegoRummikub(n);
-            case 3: return new JuegoGinRummi(n);
-            case 4: return new JuegoRummyArgentino(n);
+            case 1:
+                return new JuegoRummi(n);
+
+            case 2:
+                return new JuegoRummikub(n);
+
+            case 3:
+                return new JuegoGinRummi(n);
+
+            case 4:
+                return new JuegoRummyArgentino(n);
             default:
                 System.out.println("Opción inválida");
                 return null;
