@@ -1,3 +1,5 @@
+import enums.TipoMazo;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public abstract class JuegoBase implements Serializable{
         jugadores = new ArrayList<>();
         mesa = new Mesa();
         scanner = new Scanner(System.in);
-        mazo = new Mazo();
+        mazo = new Mazo(TipoMazo.CARTAS);
         descarte = new ArrayList<>();
         turnoActual = 0;
 
