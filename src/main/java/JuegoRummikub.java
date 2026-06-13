@@ -1,13 +1,15 @@
+import enums.TipoJugada;
+import enums.TipoMazo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class JuegoRummikub extends JuegoBase implements Serializable {
-    private MazoRummikub bolsa;
     private boolean[] jugadorHaHecho30; //Para comprobar la primera jugada
 
     public JuegoRummikub(int n) {
         super(n);
-        bolsa = new MazoRummikub();
+        mazo = new Mazo(TipoMazo.FICHAS);
         jugadorHaHecho30 = new boolean[n];
         repartir();
     }
@@ -16,50 +18,54 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
     private void repartir() {
         for (int i = 0; i < 14; i++) {
             for (Jugador j : jugadores) {
-                j.anyadirCarta(bolsa.robar());
+                j.anyadirCarta(mazo.robar());
             }
         }
     }
 
     //Método para bajar una combinación nueva
     private void jugarCombinacion(Jugador jugador, int turno) {
-        System.out.println("¿Cuantas fichas tendra la combinacion?");
+        System.out.println("1. Grupo");
+        System.out.println("2. Escalera");
+
+        int opcion = scanner.nextInt();scanner.nextLine();
+
+        TipoJugada tipo = opcion == 1 ? TipoJugada.GRUPO : TipoJugada.ESCALERA;
+
+        Combinacion jugada = new Combinacion(tipo);
+
+        System.out.println("Cuantas fichas:");
+
         int n = scanner.nextInt();
         scanner.nextLine();
 
-        ArrayList<Carta> jugada = new ArrayList<>();
-
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n;i++) {
             jugador.mostrarMano();
-            System.out.print("Elige el indice de las ficha: ");
 
             int indice = scanner.nextInt();
             scanner.nextLine();
 
-            jugada.add(jugador.getMano().get(indice));
+            jugada.agregarCarta(jugador.getMano().get(indice));
         }
 
-        int puntos = Combinacion.puntos(jugada);
+        int puntos = jugada.puntos();
 
         if (!jugadorHaHecho30[turno]) {
-
-            if (puntos < 30) {
-                System.out.println("Necesitas al menos 30 puntos en tu primera jugada");
+            if(puntos <30) {
+                System.out.println("Necesitas 30 puntos");
                 return;
-            } else {
-                jugadorHaHecho30[turno] = true;
-                System.out.println("Primera jugada valida ya que supera los 30 punos");
             }
+            jugadorHaHecho30[turno] = true;
         }
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Combinacian valida: " + jugada);
+        if(jugada.esValida()){
             mesa.agregar(jugada);
 
-            for (Carta c : jugada){
+            for(Carta c: jugada.getCartas()){
                 jugador.eliminarCarta(c);
             }
 
+            System.out.println("Combinacion valida");
         } else {
             System.out.println("Combinacion invalida");
         }
@@ -68,48 +74,42 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
     //Método para añadir una carta a una combinación ya existente
     private void anadirAMesa(Jugador jugador, int turno) {
         if (!jugadorHaHecho30[turno]) {
-            System.out.println("La jugada inicial ha de ser de como minimo 30 puntos");
+            System.out.println("Primero debes bajar 30 puntos");
             return;
         }
 
         mesa.mostrar();
-        if (mesa.getJugadas().isEmpty()) {
-            System.out.println("No hay jugadas en la mesa para añadir fichas");
+        if (mesa.getCombinaciones().isEmpty()) {
+            System.out.println("No hay combinaciones");
             return;
         }
 
-        System.out.print("Elige el número de la jugada: ");
+        System.out.print("Elige jugada: ");
 
         int jugadaIndex = scanner.nextInt();
         scanner.nextLine();
 
-        if (jugadaIndex < 0 || jugadaIndex >= mesa.getJugadas().size()) {
-            System.out.println("Ese indice es incorrecto");
-            return;
-        }
-
         jugador.mostrarMano();
-        System.out.print("Elige la ficha para añadir: ");
+
+        System.out.print("Elige ficha: ");
 
         int cartaIndex = scanner.nextInt();
         scanner.nextLine();
 
-        if (cartaIndex < 0 || cartaIndex >= jugador.getMano().size()) {
-            System.out.println("No existe el indice de la ficha");
-            return;
-        }
-
         Carta ficha = jugador.getMano().get(cartaIndex);
-        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndex);
 
-        jugada.add(ficha);
+        Combinacion jugada = mesa.getCombinaciones().get(jugadaIndex);
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Ficha añadida correctamente");
+        jugada.agregarCarta(ficha);
+
+        if(jugada.esValida()){
             jugador.eliminarCarta(ficha);
-        } else {
-            System.out.println("Esa ficha no se puede añadir");
-            jugada.remove(ficha);
+
+            System.out.println("Ficha añadida");
+        }else{
+            jugada.getCartas().remove(ficha);
+
+            System.out.println("Movimiento invalido");
         }
     }
 
@@ -130,8 +130,8 @@ public class JuegoRummikub extends JuegoBase implements Serializable {
             mesa.mostrar();
 
             //Robar de la bolsa
-            if (!bolsa.estaVacio()) {
-                Carta robada = bolsa.robar();
+            if (!mazo.estaVacio()) {
+                Carta robada = mazo.robar();
                 jugador.anyadirCarta(robada);
                 System.out.println("Has robado: " + robada);
             } else {
