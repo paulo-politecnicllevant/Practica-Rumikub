@@ -1,3 +1,5 @@
+import enums.TipoJugada;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -5,57 +7,62 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
 
     public JuegoRummyArgentino(int n) {
         super(n);
-        this.mazo = new Mazo();
-        this.descarte = new ArrayList<>();
-        repartir();
-    }
-
-    //Método para repartir cartas
-    private void repartir() {
-        for (int i = 0; i < 9; i++) {
-            for (Jugador j : jugadores) {
-                j.anyadirCarta(mazo.robar());
-            }
-        }
+        repartirCartas(9);
         descarte.add(mazo.robar());
     }
 
     //Método para bajar una combinación nueva
-    private void bajarCombinacion(Jugador jugador) {
-        System.out.println("¿Cuantas cartas tendra la combinacion?");
+    private void bajarCombinacion(Jugador jugador){
+        System.out.println("1. Grupo");
+        System.out.println("2. Escalera");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine();
+
+        TipoJugada tipo;
+
+        if(opcion == 1){
+            tipo = TipoJugada.GRUPO;
+        }else{
+            tipo = TipoJugada.ESCALERA;
+        }
+
+        Combinacion combinacion = new Combinacion(tipo);
+
+        System.out.println("Cantidad de cartas:");
+
         int n = scanner.nextInt();
         scanner.nextLine();
 
-        ArrayList<Carta> jugada = new ArrayList<>();
-
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             jugador.mostrarMano();
-            System.out.print("Elige indice de carta: ");
 
             int indice = scanner.nextInt();
             scanner.nextLine();
-            jugada.add(jugador.getMano().get(indice));
+
+            combinacion.agregarCarta(jugador.getMano().get(indice));
         }
 
         int comodines = 0;
-        for (Carta c : jugada){
-            if (c.esComodin()){
+
+        for(Carta carta : combinacion.getCartas()){
+            if(carta.esComodin()){
                 comodines++;
             }
         }
 
-        if (comodines > 1) {
-            System.out.println("No puedes usar mas de un comodin en la misma jugada");
+        if(comodines > 1){
+            System.out.println("Solo un comodin");
             return;
         }
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Combinacion valida: " + jugada);
-            mesa.agregar(jugada);
-            for (Carta c : jugada){
-                jugador.eliminarCarta(c);
-            }
-        } else {
+        if(combinacion.esValida()){
+            mesa.agregar(combinacion);
+
+            jugador.quitarCombinacion(combinacion);
+
+            System.out.println("Combinacion colocada");
+        }else{
             System.out.println("Combinacion invalida");
         }
     }
@@ -78,40 +85,51 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
     //Método para añadir una carta a una combinación ya existente
     private void anadirAMesa(Jugador jugador) {
         mesa.mostrar();
+        System.out.print("Numero:");
 
-        System.out.print("Elige el numero de la jugada: ");
-        int jugadaIndice = scanner.nextInt();
+        int indice = scanner.nextInt();
         scanner.nextLine();
 
         jugador.mostrarMano();
-        System.out.print("Elige una carta para añadir: ");
-        int cartaIndice = scanner.nextInt();
+        System.out.print("Carta:");
+
+        int carta = scanner.nextInt();
         scanner.nextLine();
 
-        Carta carta = jugador.getMano().get(cartaIndice);
-        ArrayList<Carta> jugada = mesa.getJugadas().get(jugadaIndice);
+        Carta seleccionada = jugador.getMano().get(carta);
 
-        jugada.add(carta);
+        Combinacion combinacion = mesa.getCombinaciones().get(indice);
 
-        if (Combinacion.esGrupo(jugada) || Combinacion.esEscalera(jugada)) {
-            System.out.println("Carta añadida correctamente");
-            jugador.eliminarCarta(carta);
-        } else {
-            System.out.println("Esa carta rompe la jugada");
-            jugada.remove(carta);
+        combinacion.agregarCarta(seleccionada);
+
+        int comodines = 0;
+
+        for(Carta c : combinacion.getCartas()){
+            if(c.esComodin()){
+                comodines++;
+            }
+        }
+
+        if(comodines > 1){
+            combinacion.getCartas().remove(seleccionada);
+            return;
+        }
+
+        if(combinacion.esValida()){
+            jugador.eliminarCarta(seleccionada);
+        }else{
+            combinacion.getCartas().remove(seleccionada);
         }
     }
 
     //Método para iniciar una partida
     @Override
     public void iniciar() {
-
-        turnoActual = turnoActual;
         boolean fin = false;
 
         while (!fin) {
 
-            Jugador jugador = jugadores.get(turnoActual);
+            Jugador jugador = obtenerJugadorActual();
 
             System.out.println("==============================");
             System.out.println("TURNO DE " + jugador.getNombre());
@@ -184,12 +202,11 @@ public class JuegoRummyArgentino extends JuegoBase implements Serializable {
             }
 
             //Si el jugador se quedó sin cartas, gana
-            if (jugador.getMano().isEmpty()) {
+            if (hayGanador()) {
                 System.out.println(jugador.getNombre() + " ha ganado la ronda");
                 fin = true;
             }
-
-            turnoActual = (turnoActual + 1) % jugadores.size();
+            siguienteTurno();
         }
     }
 }
