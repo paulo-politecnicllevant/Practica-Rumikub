@@ -39,9 +39,13 @@ public class Combinacion implements Serializable {
 
     //Compruebo si una lista de cartas forma un GRUPO
     public boolean esGrupo() {
-        if (cartas.size() < 3 || cartas.size() > 4) return false;
+        if (cartas.size() < 3 || cartas.size() > 4){
+            return false;
+        }
 
         int valor = -1;
+
+        ArrayList<Palo> usados = new ArrayList<>();
 
         for (Carta c : cartas) {
             if (c.esJoker()) {
@@ -49,12 +53,16 @@ public class Combinacion implements Serializable {
             }
 
             if (valor == -1) {
-                //Primera carta no comodín define el valor del grupo
+                // Primera carta no comodín define el valor del grupo
                 valor = c.getValor();
             } else if (valor != c.getValor()) {
                 // Si alguna carta no coincide, no es un grupo
                 return false;
+                // No repetir palo
+            } else if(usados.contains(c.getPalo())){
+                return false;
             }
+            usados.add(c.getPalo());
         }
         return true;
     }
