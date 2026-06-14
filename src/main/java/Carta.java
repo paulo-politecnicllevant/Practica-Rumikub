@@ -4,20 +4,20 @@ import interfaces.PiezaJuego;
 import java.io.Serializable;
 
 public class Carta implements Serializable, PiezaJuego {
-    private Palo palo;
+    private Enum<?> tipo;
     private int valor;
     private boolean joker;
 
-    public Carta(Palo palo, int valor, boolean joker){
-        this.palo = palo;
+    public Carta(Enum<?> tipo, int valor, boolean joker){
+        this.tipo = tipo;
         this.valor = valor;
         this.joker = joker;
     }
 
 
     //GETTERS / SETTERS
-    public Palo getPalo(){
-        return palo;
+    public Enum<?> getTipo(){
+        return tipo;
     }
 
     @Override
@@ -29,8 +29,8 @@ public class Carta implements Serializable, PiezaJuego {
         return joker;
     }
 
-    public void setPalo(Palo palo) {
-        this.palo = palo;
+    public void setTipo(Enum<?> tipo) {
+        this.tipo = tipo;
     }
 
     public void setValor(int valor) {
@@ -98,7 +98,7 @@ public class Carta implements Serializable, PiezaJuego {
             default: nombre = String.valueOf(valor);
         }
 
-        return nombre + "-" + palo;
+        return nombre + "-" + tipo;
     }
 
 }

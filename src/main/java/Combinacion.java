@@ -45,7 +45,7 @@ public class Combinacion implements Serializable {
 
         int valor = -1;
 
-        ArrayList<Palo> usados = new ArrayList<>();
+        ArrayList<Enum<?>> usados = new ArrayList<>();
 
         for (Carta c : cartas) {
             if (c.esJoker()) {
@@ -59,10 +59,10 @@ public class Combinacion implements Serializable {
                 // Si alguna carta no coincide, no es un grupo
                 return false;
                 // No repetir palo
-            } else if(usados.contains(c.getPalo())){
+            } else if(usados.contains(c.getTipo())){
                 return false;
             }
-            usados.add(c.getPalo());
+            usados.add(c.getTipo());
         }
         return true;
     }
@@ -77,17 +77,17 @@ public class Combinacion implements Serializable {
 
         copia.sort(Comparator.comparingInt(Carta::getValor));
 
-        Palo palo = null;
+        Enum<?> tipo = null;
 
         for (Carta c : copia){
             if (c.esJoker()){
                 continue;
             }
 
-            if (palo == null){
-                palo = c.getPalo();
+            if (tipo == null){
+                tipo = c.getTipo();
 
-            } else if (palo != c.getPalo()){
+            } else if (tipo != c.getTipo()){
                 return false;
             }
         }

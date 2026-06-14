@@ -1,3 +1,4 @@
+import enums.ColorFicha;
 import enums.Palo;
 import enums.TipoMazo;
 
@@ -38,7 +39,7 @@ public class Mazo implements Serializable {
 
     private void crearMazoFichas(){
         for (int i = 0; i < 2; i++){
-            for (Palo color : Palo.values()){
+            for (ColorFicha color : ColorFicha.values()){
                 for (int valor = 1; valor <= 13; valor++){
                     cartas.add(new Carta(color, valor, false));
                 }
